@@ -1,13 +1,14 @@
 import { CdkDrag } from '@angular/cdk/drag-drop';
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, signal } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PointObservationModel } from '../../../data-core/models/point-observation.model';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-floating-search',
   standalone: true,
-  imports: [CommonModule, FormsModule, CdkDrag],
+  imports: [CommonModule, FormsModule, CdkDrag, MatIconModule],
   templateUrl: './floating-search.html',
   styleUrl: './floating-search.scss',
 })
