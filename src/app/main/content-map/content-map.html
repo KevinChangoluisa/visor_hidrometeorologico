@@ -1,1 +1,9 @@
-<p>content-map works!</p>
+<section class="main-layout-maparea">
+  <app-mapa-main [observations]="observations" />
+
+  <!-- Lupa flotante de búsqueda -->
+  <app-floating-search
+    [observations]="observations"
+    (selected)="onStationSelected($event)"
+  />
+</section>

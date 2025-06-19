@@ -9,7 +9,7 @@ import { transformExtent, fromLonLat } from 'ol/proj';
 import { DEFAULT_OL_CONFIG } from '../../settings/ol-default-config';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class OpenLayersMapService {
   private map?: Map;
@@ -20,7 +20,7 @@ export class OpenLayersMapService {
    * Crea el mapa si se está ejecutando en el navegador (no en SSR).
    * @param targetId ID del contenedor HTML donde se renderizará el mapa.
    */
-  createMap(targetId: string): Map | undefined {
+  createMap(container: HTMLElement): Map | undefined {
     if (!isPlatformBrowser(this.platformId)) return;
 
     const center = fromLonLat(DEFAULT_OL_CONFIG.center);
@@ -31,11 +31,11 @@ export class OpenLayersMapService {
     );
 
     this.map = new Map({
-      target: targetId,
+      target: container, // CAMBIADO: antes era un string
       layers: [
         new TileLayer({
-          source: new OSM()
-        })
+          source: new OSM(),
+        }),
       ],
       view: new View({
         center,
@@ -43,8 +43,8 @@ export class OpenLayersMapService {
         maxZoom: DEFAULT_OL_CONFIG.maxZoom,
         minZoom: DEFAULT_OL_CONFIG.minZoom,
         projection: DEFAULT_OL_CONFIG.projection,
-        extent
-      })
+        extent,
+      }),
     });
 
     return this.map;
@@ -55,5 +55,16 @@ export class OpenLayersMapService {
    */
   getMap(): Map | undefined {
     return this.map;
+  }
+
+  /**
+   * Fuerza el redimensionamiento del mapa.
+   */
+  resizeMap(): void {
+    if (this.map) {
+      setTimeout(() => {
+        this.map!.updateSize();
+      }, 100); // Espera para que el DOM se asiente completamente
+    }
   }
 }

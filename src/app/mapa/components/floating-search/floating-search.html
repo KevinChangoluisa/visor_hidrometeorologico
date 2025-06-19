@@ -1,0 +1,28 @@
+<!-- Grupo completo: se puede mover -->
+<div class="floating-search" cdkDrag>
+  <!-- Solo este botón sirve como mango de arrastre -->
+  <div class="drag-handle" cdkDragHandle>
+    <button class="search-button" (click)="toggleInput()">🔍</button>
+  </div>
+
+  <!-- Panel visible solo si showInput -->
+  @if (showInput) {
+  <div class="search-panel">
+    <input
+      type="text"
+      placeholder="Buscar código INAMHI..."
+      [(ngModel)]="query"
+    />
+
+    @if (results.length > 0) {
+    <ul>
+      @for (obs of results; track obs.codigo_inamhi) {
+      <li class="result-item" (click)="select(obs)">
+        {{ obs.codigo_inamhi }} - {{ obs.name }}
+      </li>
+      }
+    </ul>
+    }
+  </div>
+  }
+</div>
