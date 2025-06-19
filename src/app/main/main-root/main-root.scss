@@ -1,0 +1,73 @@
+.main-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+/* Menú lateral animado */
+.side-menu {
+  width: 250px;
+  height: 100vh;
+  background: linear-gradient(to right, #4286f4, #373B44);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem 0;
+  transition: width 0.3s ease, opacity 0.3s ease;
+
+  &.closed {
+    width: 0px;
+    opacity: 0;
+    overflow: hidden;
+    padding: 0; // para evitar scroll/residuos visuales
+  }
+
+  .menu-toggle-btn {
+    color: white;
+    margin-bottom: 1rem;
+    z-index: 2;
+  }
+}
+
+/* Botón hamburguesa siempre visible */
+.menu-toggle-fab {
+  margin-right: 1rem;
+  background-color: #4286f4;
+  color: white;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: #3367d6;
+  }
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  transition: margin-left 0.3s ease;
+}
+
+.main-layout-header {
+  padding: 0.5rem 1rem;
+  background-color: #e8f5e9;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+}
+
+.main-layout-messages {
+  background-color: #fffde7;
+  border-bottom: 1px solid #ccc;
+  padding: 0.5rem 1rem;
+}
+
+.main-layout-maparea {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+}
