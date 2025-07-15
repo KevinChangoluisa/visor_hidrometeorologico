@@ -17,6 +17,7 @@ import { PointFilterComponent } from '../../mapa/components/settings/point-filte
 import { MarkerLayerService } from '../../mapa/services/marker-layer';
 import { OpenLayersMapService } from '../../mapa/services/openlayers-map';
 import { DEFAULT_OBSERVATION_FILTER } from '../../settings/observation-config';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-content-map',
@@ -52,8 +53,7 @@ export class ContentMap implements OnInit {
 
   ngOnInit(): void {
     const params = {
-      id_provincia: ['17', '04'],
-      id_estado_transmision: '2',
+      id_aplicacion: environment.id_aplicacion_horario,
     };
 
     this.pointObsService.getPointObservations(params).subscribe({
@@ -70,7 +70,7 @@ export class ContentMap implements OnInit {
   onStationSelected(obs: PointObservationModel): void {
     const map = this.olService.getMap();
     if (map) {
-      const coords = fromLonLat([obs.longitude, obs.latitude]);
+      const coords = fromLonLat([obs.longitud, obs.latitud]);
       map.getView().animate({ center: coords, zoom: 18, duration: 800 });
     }
   }

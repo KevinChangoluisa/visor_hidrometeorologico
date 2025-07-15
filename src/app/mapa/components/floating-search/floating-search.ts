@@ -22,7 +22,7 @@ export class FloatingSearchComponent {
   get results(): PointObservationModel[] {
     return this.query.length >= 2
       ? this.observations.filter((obs) =>
-          obs.codigo_inamhi.toLowerCase().includes(this.query.toLowerCase())
+          obs.codigo.toLowerCase().includes(this.query.toLowerCase())
         )
       : [];
   }
@@ -33,6 +33,6 @@ export class FloatingSearchComponent {
 
   select(obs: PointObservationModel) {
     this.selected.emit(obs);
-    this.query = obs.codigo_inamhi;
+    this.query = obs.codigo;
   }
 }

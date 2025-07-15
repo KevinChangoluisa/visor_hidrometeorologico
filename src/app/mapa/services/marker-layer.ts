@@ -28,9 +28,9 @@ export class MarkerLayerService {
   private getFillColor(estacion: PointObservationModel): string {
     const { circleColors } = DEFAULT_OL_STYLE;
 
-    if (estacion.id_estado_estacion === 2) {
-      return circleColors.mantenimiento;
-    }
+    // if (estacion.id_estado_estacion === 2) {
+    //   return circleColors.mantenimiento;
+    // }
 
     if (estacion.id_estado_transmision === 1) {
       return circleColors.transmitiendo;
@@ -132,7 +132,7 @@ export class MarkerLayerService {
     // Agrupar por latitud-longitud
     const grouped = new Map<string, PointObservationModel[]>();
     observations.forEach((obs) => {
-      const key = `${obs.latitude},${obs.longitude}`;
+      const key = `${obs.latitud},${obs.longitud}`;
       if (!grouped.has(key)) grouped.set(key, []);
       grouped.get(key)!.push(obs);
     });
@@ -209,17 +209,17 @@ export class MarkerLayerService {
 
     const feature = new Feature({
       geometry: new Point(coords3857),
-      name: obs.name,
-      code: obs.code,
+      name: obs.punto_obs,
+      code: obs.id_estacion,
       categoria: obs.id_categoria,
-      codigo_inamhi: obs.codigo_inamhi,
+      codigo_inamhi: obs.codigo,
       id_estado_transmision: obs.id_estado_transmision,
-      id_estado_estacion: obs.id_estado_estacion,
+      id_estado_estacion: obs.id_estado_transmision,
     });
 
     const styles: Style[] = [this.getCircleStyle(zoom, label, obs)];
     if (zoom >= DEFAULT_OL_STYLE.zoomShowLabel) {
-      styles.push(this.getTextStyleBelow(radius, obs.codigo_inamhi));
+      styles.push(this.getTextStyleBelow(radius, obs.codigo));
     }
 
     feature.setStyle(styles);

@@ -17,9 +17,9 @@
 
       @if (results.length > 0) {
         <ul>
-          @for (obs of results; track obs.codigo_inamhi) {
+          @for (obs of results; track obs.codigo) {
             <li class="result-item" (click)="select(obs)">
-              {{ obs.codigo_inamhi }} - {{ obs.name }}
+              {{ obs.codigo }} - {{ obs.punto_obs }}
             </li>
           }
         </ul>
