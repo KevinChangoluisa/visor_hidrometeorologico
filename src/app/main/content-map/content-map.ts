@@ -65,6 +65,13 @@ export class ContentMap implements OnInit {
         console.error('Error al obtener observaciones:', err);
       },
     });
+
+    this.markerService.estacionSeleccionada$.subscribe((id_estacion) => {
+      console.log('Estación seleccionada:', id_estacion);
+
+      // Aquí haces la llamada al servicio de detalle, ejemplo:
+      // this.detalleEstacionService.getDetalle(id_estacion).subscribe(...)
+    });
   }
 
   onStationSelected(obs: PointObservationModel): void {
@@ -76,7 +83,6 @@ export class ContentMap implements OnInit {
   }
 
   onCaptorFilterChange(newList: number[]): void {
-    console.log(this.filteredObservations);
     this.selectedCaptorTypes = newList;
     this.updateMarkers();
   }

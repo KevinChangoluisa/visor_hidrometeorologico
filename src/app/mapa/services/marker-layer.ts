@@ -7,10 +7,16 @@ import VectorSource from 'ol/source/Vector';
 import { Circle as CircleStyle, Fill, Stroke, Style, Text } from 'ol/style';
 import { PointObservationModel } from '../../data-core/models/point-observation.model';
 import { DEFAULT_OL_STYLE } from '../../settings/ol-default-config';
+import { Subject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class MarkerLayerService {
   private markerLayer: VectorLayer<VectorSource> | null = null;
+
+  // Stream para emitir el ID de la estación al hacer clic
+  private estacionSeleccionadaSubject = new Subject<number>();
+  estacionSeleccionada$ = this.estacionSeleccionadaSubject.asObservable();
+  private marcadorSeleccionado: Feature | null = null;
 
   private getCategoryLabel(id_categoria: number): string {
     switch (id_categoria) {
@@ -185,7 +191,7 @@ export class MarkerLayerService {
       source.getFeatures().forEach((feature) => {
         const categoria = feature.get('categoria') ?? 0;
         const label = this.getCategoryLabel(categoria);
-        const codigo = feature.get('codigo_inamhi') ?? '';
+        const codigo = feature.get('codigo') ?? '';
         const estacion = feature.getProperties() as PointObservationModel;
 
         const styles: Style[] = [this.getCircleStyle(newZoom, label, estacion)];
@@ -195,6 +201,15 @@ export class MarkerLayerService {
         }
 
         feature.setStyle(styles);
+      });
+    });
+
+    map.on('singleclick', (event) => {
+      map.forEachFeatureAtPixel(event.pixel, (feature) => {
+        const idEstacion = feature.get('code'); // <-- este es tu id_estacion
+        if (idEstacion) {
+          this.emitirEstacionSeleccionada(idEstacion);
+        }
       });
     });
   }
@@ -212,7 +227,7 @@ export class MarkerLayerService {
       name: obs.punto_obs,
       code: obs.id_estacion,
       categoria: obs.id_categoria,
-      codigo_inamhi: obs.codigo,
+      codigo: obs.codigo,
       id_estado_transmision: obs.id_estado_transmision,
       id_estado_estacion: obs.id_estado_transmision,
     });
@@ -224,5 +239,10 @@ export class MarkerLayerService {
 
     feature.setStyle(styles);
     return feature;
+  }
+
+  // Emitir el ID desde aquí
+  emitirEstacionSeleccionada(id_estacion: number) {
+    this.estacionSeleccionadaSubject.next(id_estacion);
   }
 }

@@ -47,6 +47,7 @@ export class OpenLayersMapService {
       }),
     });
 
+    this.enableMarkerPointerEffect();
     return this.map;
   }
 
@@ -66,5 +67,24 @@ export class OpenLayersMapService {
         this.map!.updateSize();
       }, 100); // Espera para que el DOM se asiente completamente
     }
+  }
+
+  /**
+   * Agrega efecto visual de clickeable al pasar sobre estaciones.
+   * Cambia el cursor a 'pointer' al estar sobre un marker.
+   */
+  enableMarkerPointerEffect(): void {
+    const map = this.map;
+    if (!map) return;
+
+    map.on('pointermove', (event) => {
+      const pixel = map.getEventPixel(event.originalEvent);
+      const hit = map.hasFeatureAtPixel(pixel);
+
+      const target = map.getTargetElement();
+      if (target) {
+        target.style.cursor = hit ? 'pointer' : '';
+      }
+    });
   }
 }

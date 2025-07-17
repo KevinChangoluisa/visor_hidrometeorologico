@@ -8,5 +8,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.scss'
 })
 export class App {
-  protected title = 'visor_hm_inamhi';
+  protected title = 'visor_hidrometeorológico';
 }

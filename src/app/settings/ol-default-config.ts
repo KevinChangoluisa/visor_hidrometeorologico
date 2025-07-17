@@ -25,7 +25,7 @@ export const DEFAULT_OL_STYLE = {
   internalTextOutline: 'transparent',
   internalTextOutlineWidth: 0,
 
-  // 🏷️ Texto externo (debajo del círculo, código INAMHI)
+  // 🏷️ Texto externo (debajo del círculo, código)
   externalTextColor: 'black',
   externalTextOutline: 'white',
   externalTextOutlineWidth: 2,
@@ -39,6 +39,6 @@ export const DEFAULT_OL_STYLE = {
     porDefecto: '#808080', // gris
   },
 
-  // Zoom a partir del cual mostrar el código INAMHI
+  // Zoom a partir del cual mostrar el código
   zoomShowLabel: 8,
 };

@@ -8,22 +8,21 @@
 
   <!-- Panel visible solo si showInput -->
   @if (showInput) {
-    <div class="search-panel">
-      <input
-        type="text"
-        placeholder="Buscar código INAMHI..."
-        [(ngModel)]="query"
-      />
-
-      @if (results.length > 0) {
-        <ul>
-          @for (obs of results; track obs.codigo) {
-            <li class="result-item" (click)="select(obs)">
-              {{ obs.codigo }} - {{ obs.punto_obs }}
-            </li>
-          }
-        </ul>
+  <div class="search-panel">
+    <input
+      type="text"
+      placeholder="Buscar código de estación..."
+      [(ngModel)]="query"
+    />
+    @if (results.length > 0) {
+    <ul>
+      @for (obs of results; track obs.codigo) {
+      <li class="result-item" (click)="select(obs)">
+        {{ obs.codigo }} - {{ obs.punto_obs }}
+      </li>
       }
-    </div>
+    </ul>
+    }
+  </div>
   }
 </div>

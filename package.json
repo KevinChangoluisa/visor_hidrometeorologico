@@ -1,5 +1,5 @@
 {
-  "name": "visor-hm-inamhi",
+  "name": "visor-hidrometeorologico",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -7,7 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
-    "serve:ssr:visor_hm_inamhi": "node dist/visor_hm_inamhi/server/server.mjs"
+    "serve:ssr:visor_hidrometeorologico": "node dist/visor_hidrometeorologico/server/server.mjs"
   },
   "private": true,
   "dependencies": {

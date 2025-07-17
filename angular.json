@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "visor_hm_inamhi": {
+    "visor_hidrometeorologico": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -70,10 +70,10 @@
           "builder": "@angular/build:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "visor_hm_inamhi:build:production"
+              "buildTarget": "visor_hidrometeorologico:build:production"
             },
             "development": {
-              "buildTarget": "visor_hm_inamhi:build:development"
+              "buildTarget": "visor_hidrometeorologico:build:development"
             }
           },
           "defaultConfiguration": "development"
