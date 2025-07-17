@@ -1,60 +1,90 @@
-<<<<<<< HEAD
-# HydroMet Viewer 2025 V2
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.3.
+# 🌧️ Visor Hidro-Meteorológico
 
-## Development server
+**Visor Hidro-Meteorológico** es una aplicación web desarrollada en Angular 20 que permite visualizar estaciones meteorológicas e hidrológicas georreferenciadas sobre un mapa interactivo, utilizando la biblioteca **OpenLayers**.
 
-To start a local development server, run:
+Consume una API REST que proporciona información de estaciones, incluyendo ubicación, tipo de sensor, estado de transmisión, categoría y propietario.
+
+---
+
+## 📍 ¿Qué hace esta aplicación?
+
+- Muestra marcadores puntuales en el mapa según `latitud` y `longitud`.
+- Visualiza atributos clave como tipo de captor, estado de transmisión, y categoría.
+- Permite interacción con los marcadores para obtener más información.
+- Utiliza **OpenLayers** como motor GIS para la visualización geográfica.
+
+---
+
+## 🛰️ Ejemplo de objeto recibido por la API REST
+
+```json
+{
+  "id_estacion": 62526,
+  "codigo": "M0124",
+  "latitud": "-0.916389",
+  "longitud": "-79.245556",
+  "altitud": "215.00",
+  "id_categoria": 1,
+  "categoria": "METEOROLOGICA",
+}
+````
+
+---
+
+## ⚙️ Tecnologías utilizadas
+
+* [Angular 20](https://angular.dev/)
+* [OpenLayers](https://openlayers.org/) (visualización geoespacial)
+* SCSS para estilos
+* API REST (backend externo, no incluido en este repositorio)
+
+---
+
+## 🚀 Cómo iniciar la aplicación
 
 ```bash
 ng serve
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+Luego accede a: [http://localhost:4200](http://localhost:4200)
 
-## Code scaffolding
+---
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+## 🧱 Estructura del proyecto
 
-```bash
-ng generate component component-name
-```
+* `src/app/mapa/` → Componente principal del visor
+* `src/app/services/` → Servicios para consumir la API
+* `src/app/models/` → Interfaces de tipado (`PointObservationModel`, etc.)
+* `OpenLayersMapService` → Servicio que encapsula la lógica del mapa
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+---
 
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+## 🧪 Testing
 
 ```bash
-ng build
+ng test        # pruebas unitarias
+ng e2e         # pruebas end-to-end (si se configuró)
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+---
 
-## Running unit tests
+## 📚 Recursos adicionales
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+* [Documentación OpenLayers](https://openlayers.org/en/latest/doc/)
+* [Documentación Angular CLI](https://angular.dev/tools/cli)
+* [Guía de TypeScript](https://www.typescriptlang.org/docs/)
 
-```bash
-ng test
-```
+---
 
-## Running end-to-end tests
 
-For end-to-end (e2e) testing, run:
+## 👤 Autor
 
-```bash
-ng e2e
-```
+**Kevin Changoluisa**
+GitHub: [@KevinChangoluisa](https://github.com/KevinChangoluisa)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## 📝 Licencia
 
-## Additional Resources
+Este proyecto está licenciado bajo los términos de la licencia MIT.  
+Puedes usarlo, modificarlo y redistribuirlo, **siempre que mantengas la atribución al autor original**:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
-=======
+**Kevin Changoluisa** – [github.com/KevinChangoluisa](https://github.com/KevinChangoluisa)
