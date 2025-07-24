@@ -69,8 +69,14 @@ export class ContentMap implements OnInit {
     this.markerService.estacionSeleccionada$.subscribe((id_estacion) => {
       console.log('Estación seleccionada:', id_estacion);
 
-      // Aquí haces la llamada al servicio de detalle, ejemplo:
-      // this.detalleEstacionService.getDetalle(id_estacion).subscribe(...)
+      this.pointObsService.getParameterStation(id_estacion).subscribe({
+        next: (response) => {
+          console.log('Parámetros recibidos:', response);
+        },
+        error: (err) => {
+          console.error('Error al obtener parámetros de la estación:', err);
+        },
+      });
     });
   }
 

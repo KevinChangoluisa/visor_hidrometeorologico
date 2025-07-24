@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, map } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { PointObservationModel } from '../models/point-observation.model';
+import { ParametroEstacion } from '../models/observation-point';
 
 @Injectable({
   providedIn: 'root',
@@ -30,5 +31,15 @@ export class PointObservationService {
       this.baseUrl
     }/station_information/estaciones/visores/?${params.toString()}`;
     return this.http.get<PointObservationModel[]>(url);
+  }
+
+  getParameterStation(id_estacion: number): Observable<ParametroEstacion[]> {
+    const params = new URLSearchParams();
+    params.set('id_estacion', id_estacion.toString());
+    params.set('id_aplicacion', environment.id_aplicacion_horario.toString());
+    const url = `${
+      this.baseUrl
+    }/station_information/estaciones/parametros/?${params.toString()}`;
+    return this.http.get<ParametroEstacion[]>(url);
   }
 }
