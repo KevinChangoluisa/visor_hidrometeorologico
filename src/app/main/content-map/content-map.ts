@@ -1,14 +1,17 @@
 import { CommonModule } from '@angular/common';
 import {
   Component,
-  ElementRef,
+  EventEmitter,
   HostListener,
   OnInit,
+  Output,
   computed,
   signal,
 } from '@angular/core';
 import { MatIconModule } from '@angular/material/icon';
 import { fromLonLat } from 'ol/proj';
+import { environment } from '../../../environments/environment';
+import { ParametroEstacion } from '../../data-core/models/observation-point';
 import { PointObservationModel } from '../../data-core/models/point-observation.model';
 import { PointObservationService } from '../../data-core/services/point-observation';
 import { FloatingSearchComponent } from '../../mapa/components/floating-search/floating-search';
@@ -17,8 +20,6 @@ import { PointFilterComponent } from '../../mapa/components/settings/point-filte
 import { MarkerLayerService } from '../../mapa/services/marker-layer';
 import { OpenLayersMapService } from '../../mapa/services/openlayers-map';
 import { DEFAULT_OBSERVATION_FILTER } from '../../settings/observation-config';
-import { environment } from '../../../environments/environment';
-
 @Component({
   selector: 'app-content-map',
   standalone: true,
@@ -44,12 +45,40 @@ export class ContentMap implements OnInit {
   showFilterPanel = computed(() => this.currentPanel() === 'filter');
   showSearchPanel = computed(() => this.currentPanel() === 'search');
 
+  parametrosEstacion: ParametroEstacion[] = [];
+  stationInformation: PointObservationModel | null = null;
+
+  @Output() showStationPanel = new EventEmitter<{
+    info: PointObservationModel;
+    parametros: ParametroEstacion[];
+  }>();
+
   constructor(
     private pointObsService: PointObservationService,
     private olService: OpenLayersMapService,
-    private markerService: MarkerLayerService,
-    private elRef: ElementRef
-  ) {}
+    private markerService: MarkerLayerService
+  ) {
+    this.markerService.estacionSeleccionada$.subscribe((id_estacion) => {
+      const info = this.observations.find(
+        (obs) => obs.id_estacion === id_estacion
+      );
+      this.stationInformation = info ?? null;
+      this.pointObsService.getParameterStation(id_estacion).subscribe({
+        next: (response) => {
+          if (response.length > 0 && info) {
+            this.showStationPanel.emit({
+              info,
+              parametros: response,
+            });
+          }
+        },
+        error: (err) => {
+          console.error('Error al obtener parámetros de la estación:', err);
+          this.parametrosEstacion = [];
+        },
+      });
+    });
+  }
 
   ngOnInit(): void {
     const params = {
@@ -64,19 +93,6 @@ export class ContentMap implements OnInit {
       error: (err) => {
         console.error('Error al obtener observaciones:', err);
       },
-    });
-
-    this.markerService.estacionSeleccionada$.subscribe((id_estacion) => {
-      console.log('Estación seleccionada:', id_estacion);
-
-      this.pointObsService.getParameterStation(id_estacion).subscribe({
-        next: (response) => {
-          console.log('Parámetros recibidos:', response);
-        },
-        error: (err) => {
-          console.error('Error al obtener parámetros de la estación:', err);
-        },
-      });
     });
   }
 

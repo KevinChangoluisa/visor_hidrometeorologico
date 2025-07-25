@@ -33,7 +33,16 @@
     </section>
 
     <section class="main-layout-maparea">
-      <app-content-map />
+      <app-content-map (showStationPanel)="onShowPanel($event)" />
+
+      @if(panelVisible){
+      <app-station-data-panel
+        class="floating-panel center-top-panel"
+        [stationInformation]="stationInfo"
+        [parametros]="parametrosEstacion"
+        (cerrarPanel)="panelVisible = false"
+      />
+      }
     </section>
   </main>
 </div>

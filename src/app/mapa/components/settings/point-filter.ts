@@ -8,8 +8,8 @@ import {
   signal,
 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { PointObservationModel } from '../../../data-core/models/point-observation.model';
 import { MatIconModule } from '@angular/material/icon';
+import { PointObservationModel } from '../../../data-core/models/point-observation.model';
 
 @Component({
   selector: 'app-point-filter',
@@ -22,7 +22,7 @@ export class PointFilterComponent {
   @Input() observations: PointObservationModel[] = [];
 
   @Input() selectedCaptorTypes: number[] = [];
-@Output() selectedCaptorTypesChange = new EventEmitter<number[]>();
+  @Output() selectedCaptorTypesChange = new EventEmitter<number[]>();
 
   private show = signal(false);
   showPanel = this.show;
@@ -52,18 +52,18 @@ export class PointFilterComponent {
   /**
    * Cambia el estado del filtro cuando el checkbox es marcado/desmarcado
    */
-toggle(type: number, checked: boolean) {
-  const newSelection = [...this.selectedCaptorTypes];
-  const index = newSelection.indexOf(type);
+  toggle(type: number, checked: boolean) {
+    const newSelection = [...this.selectedCaptorTypes];
+    const index = newSelection.indexOf(type);
 
-  if (checked && index === -1) {
-    newSelection.push(type);
-  } else if (!checked && index !== -1) {
-    newSelection.splice(index, 1);
+    if (checked && index === -1) {
+      newSelection.push(type);
+    } else if (!checked && index !== -1) {
+      newSelection.splice(index, 1);
+    }
+
+    this.selectedCaptorTypesChange.emit(newSelection);
   }
-
-  this.selectedCaptorTypesChange.emit(newSelection);
-}
 
   /**
    * Verifica si el tipo está actualmente seleccionado
@@ -72,10 +72,10 @@ toggle(type: number, checked: boolean) {
     return this.selectedCaptorTypes.includes(type);
   }
 
-onCheckboxChange(event: Event, type: number) {
-  const checked = (event.target as HTMLInputElement).checked;
-  this.toggle(type, checked);
-}
+  onCheckboxChange(event: Event, type: number) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.toggle(type, checked);
+  }
 
   togglePanel() {
     this.show.update((v) => !v);

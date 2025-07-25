@@ -15,6 +15,9 @@ import {
   transition,
   animate,
 } from '@angular/animations';
+import { StationDataPanel } from '../../graph/station-data-panel/station-data-panel';
+import { PointObservationModel } from '../../data-core/models/point-observation.model';
+import { ParametroEstacion } from '../../data-core/models/observation-point';
 
 @Component({
   selector: 'app-main-root',
@@ -27,6 +30,7 @@ import {
     HeaderTitle,
     MessageBar,
     ContentMap,
+    StationDataPanel,
   ],
   templateUrl: './main-root.html',
   styleUrl: './main-root.scss',
@@ -52,8 +56,19 @@ import {
 })
 export class MainRoot {
   isMenuOpen = false;
-
+  panelVisible = false;
+  stationInfo: PointObservationModel | null = null;
+  parametrosEstacion: ParametroEstacion[] = [];
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
+  }
+
+  onShowPanel(event: {
+    info: PointObservationModel;
+    parametros: ParametroEstacion[];
+  }) {
+    this.stationInfo = event.info;
+    this.parametrosEstacion = event.parametros;
+    this.panelVisible = true;
   }
 }
