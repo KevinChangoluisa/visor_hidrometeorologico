@@ -13,4 +13,8 @@ export interface PointObservationModel {
   id_propietario: number;
   propietario: string;
   punto_obs?: string;
+  id_provincia: number;
+  provincia: string;
+  id_canton: number;
+  canton: string;
 }

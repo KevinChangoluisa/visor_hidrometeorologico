@@ -1,1 +1,69 @@
-<p>station-chart works!</p>
+<div class="seccion-configuracion-grafico">
+  <!-- Botón de colapso de panel -->
+  <button
+    mat-icon-button
+    class="boton-colapsar-grafico"
+    (click)="tipoGraficaColapsado = !tipoGraficaColapsado"
+    aria-label="Mostrar/Ocultar opciones de gráfica"
+  >
+    <mat-icon>
+      @if (tipoGraficaColapsado) { chevron_right } @else { chevron_left }
+    </mat-icon>
+  </button>
+
+  <!-- Sección de tipo de gráfica -->
+  <div class="grupo-opciones-grafico" [class.colapsado]="tipoGraficaColapsado">
+    @if (!tipoGraficaColapsado) {
+    <div class="campo-opcion">
+      <span class="titulo-opcion">Tipo de gráfica</span>
+      <mat-radio-group
+        [(ngModel)]="tipoGrafica"
+        (change)="onTipoGraficaChange($event)"
+        class="radio-opciones"
+      >
+        <mat-radio-button value="simple">Gráfica simple</mat-radio-button>
+        <mat-radio-button value="combinada">Gráfica combinada</mat-radio-button>
+      </mat-radio-group>
+    </div>
+    } @else {
+    <div class="etiqueta-colapsada">
+      {{ tipoGrafica === 'simple' ? 'Gráfica simple' : 'Gráfica combinada' }}
+    </div>
+    }
+  </div>
+
+  <!-- Sección de selección de parámetros -->
+  <div class="grupo-seleccion-parametro">
+    <span class="titulo-opcion">Seleccionar parámetro</span>
+
+    @if (tipoGrafica === 'simple') {
+    <mat-form-field appearance="outline" class="selector-parametro">
+      <mat-label>Parámetro</mat-label>
+      <mat-select [(value)]="selectedParam" (selectionChange)="onParamChange()">
+        <mat-option [value]="null" disabled selected
+          >Seleccione un parámetro</mat-option
+        >
+        @for (p of parametros; track p) {
+        <mat-option [value]="p">{{ p.name_param }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    } @else {
+    <mat-form-field appearance="outline" class="selector-parametro">
+      <mat-label>Parámetros</mat-label>
+      <mat-select
+        [(value)]="selectedParams"
+        multiple
+        (selectionChange)="onParamsChange()"
+      >
+        <mat-option disabled [value]="null"
+          >Seleccione uno o más parámetros</mat-option
+        >
+        @for (p of parametros; track p) {
+        <mat-option [value]="p">{{ p.name_param }}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    }
+  </div>
+</div>

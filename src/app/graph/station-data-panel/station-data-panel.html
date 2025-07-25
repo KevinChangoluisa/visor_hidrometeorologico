@@ -14,7 +14,10 @@
     <mat-tab-group [(selectedIndex)]="selectedTabIndex">
       <mat-tab label="Datos Meteorológicos">
         @if (selectedTabIndex === 0) {
-        <app-station-chart />
+        <app-station-chart
+          [stationInformation]="stationInformation"
+          [parametros]="parametros"
+        />
         }
       </mat-tab>
 

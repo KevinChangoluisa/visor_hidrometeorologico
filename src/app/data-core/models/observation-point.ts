@@ -1,5 +1,3 @@
-export interface ObservationPoint {}
-
 export interface ParametroEstacionItem {
   nemonico: string;
   fecha_ultimo_dato: string;
@@ -13,7 +11,7 @@ export interface ParametroEstacionItem {
 export interface ParametroEstacion {
   id_param: number;
   id_estacion: number;
-  nombre_parametro: string;
+  name_param: string;
   simbolo_unidad: string;
   parametros: ParametroEstacionItem[];
 }

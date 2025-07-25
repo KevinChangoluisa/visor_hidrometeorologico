@@ -1,0 +1,76 @@
+.seccion-configuracion-grafico {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border-radius: 10px;
+  gap: 1.5rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.07);
+}
+
+.boton-colapsar-grafico {
+  margin-top: 0.5rem;
+}
+
+.grupo-opciones-grafico {
+  display: flex;
+  flex-direction: column;
+  min-width: 250px;
+  transition: all 0.3s ease;
+}
+
+.grupo-opciones-grafico.colapsado .radio-opciones,
+.grupo-opciones-grafico.colapsado .titulo-opcion {
+  display: none;
+}
+
+.etiqueta-colapsada {
+  padding: 0.5rem 0.8rem;
+  background-color: #e0e0e0;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #444;
+}
+
+.radio-opciones {
+  display: flex;
+  gap: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+.grupo-seleccion-parametro {
+  flex-grow: 1;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+}
+
+.selector-parametro {
+  width: 100%;
+  margin-top: 0.3rem;
+
+  ::ng-deep .mat-select-value {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+  }
+
+  ::ng-deep .mat-option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  ::ng-deep .mat-option-text {
+    font-size: 14px;
+  }
+}
+
+.titulo-opcion {
+  font-weight: 600;
+  font-size: 15px;
+  color: #2c3e50;
+  margin-bottom: 0.2rem;
+}
