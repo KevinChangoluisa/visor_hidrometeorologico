@@ -13,5 +13,5 @@ export interface ParametroEstacion {
   id_estacion: number;
   name_param: string;
   simbolo_unidad: string;
-  parametros: ParametroEstacionItem[];
+  params: ParametroEstacionItem[];
 }

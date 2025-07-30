@@ -15,7 +15,9 @@ import { MatSelectModule } from '@angular/material/select';
 
 import { ParametroEstacion } from '../../data-core/models/observation-point';
 import { PointObservationModel } from '../../data-core/models/point-observation.model';
+import { DataCore } from '../../data-core/services/data-core';
 import { PlotlyGraph } from '../services/plotly-graph';
+import { SpinnerService } from '../../main/services/spinner-service/spinner-service';
 
 @Component({
   standalone: true,
@@ -53,8 +55,11 @@ export class StationChart implements AfterViewInit {
   selectedParams: ParametroEstacion[] = [];
   tipoGrafica: 'simple' | 'combinada' = 'simple';
   tipoGraficaColapsado = false;
-
-  constructor(private plotlyService: PlotlyGraph) {}
+  constructor(
+    private plotlyService: PlotlyGraph,
+    private dataService: DataCore,
+    private spinnerService: SpinnerService
+  ) {}
 
   ngAfterViewInit(): void {
     setTimeout(() => {
@@ -73,6 +78,34 @@ export class StationChart implements AfterViewInit {
 
   onParamChange(): void {
     console.log('Parámetro seleccionado (simple):', this.selectedParam);
+
+    if (!this.selectedParam || !this.stationInformation?.id_estacion) {
+      return;
+    }
+
+    const nemonicos = this.selectedParam.params?.map((p) => p.nemonico) || [];
+
+    if (nemonicos.length === 0) {
+      console.warn(
+        'No se encontró ningún nemónico en el parámetro seleccionado.'
+      );
+      return;
+    }
+
+    this.spinnerService.show()
+
+    this.dataService
+      .postDataHour(this.stationInformation.id_estacion, nemonicos)
+      .then((response) => {
+        console.log('✅ Respuesta del backend:', response);
+      })
+      .catch((error) => {
+        console.error('❌ Error al obtener datos horarios:', error);
+      })
+      .finally(() => {
+        this.spinnerService.hide();
+
+      });
   }
 
   onParamsChange(): void {

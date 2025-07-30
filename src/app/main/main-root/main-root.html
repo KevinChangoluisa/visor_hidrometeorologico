@@ -33,6 +33,8 @@
     </section>
 
     <section class="main-layout-maparea">
+      <!-- Spinner overlay global -->
+      <app-spinner />
       <app-content-map (showStationPanel)="onShowPanel($event)" />
 
       @if(panelVisible){

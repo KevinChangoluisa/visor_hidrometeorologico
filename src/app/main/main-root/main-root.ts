@@ -18,6 +18,7 @@ import {
 import { StationDataPanel } from '../../graph/station-data-panel/station-data-panel';
 import { PointObservationModel } from '../../data-core/models/point-observation.model';
 import { ParametroEstacion } from '../../data-core/models/observation-point';
+import { Spinner } from "../spinner/spinner";
 
 @Component({
   selector: 'app-main-root',
@@ -31,7 +32,8 @@ import { ParametroEstacion } from '../../data-core/models/observation-point';
     MessageBar,
     ContentMap,
     StationDataPanel,
-  ],
+    Spinner
+],
   templateUrl: './main-root.html',
   styleUrl: './main-root.scss',
   animations: [

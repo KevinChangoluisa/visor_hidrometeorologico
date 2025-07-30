@@ -20,6 +20,7 @@ import { PointFilterComponent } from '../../mapa/components/settings/point-filte
 import { MarkerLayerService } from '../../mapa/services/marker-layer';
 import { OpenLayersMapService } from '../../mapa/services/openlayers-map';
 import { DEFAULT_OBSERVATION_FILTER } from '../../settings/observation-config';
+import { SpinnerService } from '../services/spinner-service/spinner-service';
 @Component({
   selector: 'app-content-map',
   standalone: true,
@@ -56,13 +57,15 @@ export class ContentMap implements OnInit {
   constructor(
     private pointObsService: PointObservationService,
     private olService: OpenLayersMapService,
-    private markerService: MarkerLayerService
+    private markerService: MarkerLayerService,
+    private spinnerService: SpinnerService
   ) {
     this.markerService.estacionSeleccionada$.subscribe((id_estacion) => {
       const info = this.observations.find(
         (obs) => obs.id_estacion === id_estacion
       );
       this.stationInformation = info ?? null;
+      this.spinnerService.show();
       this.pointObsService.getParameterStation(id_estacion).subscribe({
         next: (response) => {
           if (response.length > 0 && info) {
@@ -71,10 +74,12 @@ export class ContentMap implements OnInit {
               parametros: response,
             });
           }
+          this.spinnerService.hide();
         },
         error: (err) => {
           console.error('Error al obtener parámetros de la estación:', err);
           this.parametrosEstacion = [];
+          this.spinnerService.hide();
         },
       });
     });
@@ -85,13 +90,17 @@ export class ContentMap implements OnInit {
       id_aplicacion: environment.id_aplicacion_horario,
     };
 
+    this.spinnerService.show();
+
     this.pointObsService.getPointObservations(params).subscribe({
       next: (data) => {
         this.observations = data;
         this.updateMarkers();
+        this.spinnerService.hide();
       },
       error: (err) => {
         console.error('Error al obtener observaciones:', err);
+        this.spinnerService.hide();
       },
     });
   }
