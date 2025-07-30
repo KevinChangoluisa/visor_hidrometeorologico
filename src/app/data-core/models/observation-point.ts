@@ -1,7 +1,7 @@
 export interface ParametroEstacionItem {
   nemonico: string;
   fecha_ultimo_dato: string;
-  descripcion: string;
+  descripcion_parametro: string;
   unidad: string;
   simbolo_unidad: string;
   estadistico: string;

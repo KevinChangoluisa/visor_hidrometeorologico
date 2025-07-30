@@ -55,6 +55,19 @@ export class StationChart implements AfterViewInit {
   selectedParams: ParametroEstacion[] = [];
   tipoGrafica: 'simple' | 'combinada' = 'simple';
   tipoGraficaColapsado = false;
+
+  selectedTraceType: string = 'lines+markers'; // por defecto
+  seriesLoaded: boolean = false;
+  currentSeries: any[] = [];
+
+traceTypes = [
+  { value: 'lines+markers', label: 'Líneas con puntos' },     // buena para valores detallados por hora
+  { value: 'lines', label: 'Solo líneas' },                   // para ver tendencia
+  { value: 'markers', label: 'Solo puntos' },                 // útil en registros puntuales
+  { value: 'bar', label: 'Barras' },                          // útil para precipitaciones, acumulados
+  { value: 'area', label: 'Área (líneas rellenas)' },         // tendencia con volumen visual
+];
+
   constructor(
     private plotlyService: PlotlyGraph,
     private dataService: DataCore,
@@ -64,21 +77,13 @@ export class StationChart implements AfterViewInit {
   ngAfterViewInit(): void {
     setTimeout(() => {
       if (this.stationInformation && this.chartContainer) {
-        this.plotlyService.drawSampleGraph(
-          this.chartContainer.nativeElement,
-          this.stationInformation
-        );
+        this.selectedParam = null;
+        this.selectedParams = [];
       }
-
-      // No seleccionar ningún parámetro por defecto
-      this.selectedParam = null;
-      this.selectedParams = [];
     }, 0);
   }
 
   onParamChange(): void {
-    console.log('Parámetro seleccionado (simple):', this.selectedParam);
-
     if (!this.selectedParam || !this.stationInformation?.id_estacion) {
       return;
     }
@@ -92,33 +97,54 @@ export class StationChart implements AfterViewInit {
       return;
     }
 
-    this.spinnerService.show()
+    this.spinnerService.show();
 
     this.dataService
       .postDataHour(this.stationInformation.id_estacion, nemonicos)
-      .then((response) => {
-        console.log('✅ Respuesta del backend:', response);
+      .then((seriesResponse) => {
+        this.currentSeries = seriesResponse;
+        this.seriesLoaded = true;
+
+        this.plotlyService.renderSeriesChart(
+          this.chartContainer.nativeElement,
+          this.stationInformation,
+          this.selectedParam!,
+          seriesResponse,
+          this.selectedTraceType // ✅ estilo de línea actual
+        );
       })
       .catch((error) => {
         console.error('❌ Error al obtener datos horarios:', error);
       })
       .finally(() => {
         this.spinnerService.hide();
-
       });
   }
 
   onParamsChange(): void {
     console.log('Parámetros seleccionados (combinada):', this.selectedParams);
+    // Por implementar lógica de gráfica combinada
   }
 
   onTipoGraficaChange(event: any): void {
     this.tipoGrafica = event.value;
-
-    // Limpiar selección al cambiar tipo
     this.selectedParam = null;
     this.selectedParams = [];
+    this.seriesLoaded = false;
+    this.currentSeries = [];
+  }
 
-    console.log('Tipo de gráfica cambiada a:', this.tipoGrafica);
+  onTraceTypeChange(): void {
+    if (!this.seriesLoaded || !this.selectedParam || !this.chartContainer) {
+      return;
+    }
+
+    this.plotlyService.renderSeriesChart(
+      this.chartContainer.nativeElement,
+      this.stationInformation,
+      this.selectedParam!,
+      this.currentSeries,
+      this.selectedTraceType
+    );
   }
 }
