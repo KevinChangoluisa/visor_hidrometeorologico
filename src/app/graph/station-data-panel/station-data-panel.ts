@@ -34,10 +34,7 @@ export class StationDataPanel implements OnInit {
   // Estado actual del menú: 'datos' o 'pronostico'
   selectedTabIndex = 0;
 
-  ngOnInit(): void {
-    console.log('Parámetros iniciales:', this.parametros);
-    console.log('Información inicial de estación:', this.stationInformation);
-  }
+  ngOnInit(): void {}
 
   cerrar() {
     this.cerrarPanel.emit();

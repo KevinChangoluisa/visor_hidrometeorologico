@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PlotlyGraph } from './plotly-graph';
+import { PlotlyMultipleGraph } from './plotly-multiple-graph';
 
-describe('PlotlyGraph', () => {
-  let service: PlotlyGraph;
+describe('PlotlyMultipleGraph', () => {
+  let service: PlotlyMultipleGraph;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(PlotlyGraph);
+    service = TestBed.inject(PlotlyMultipleGraph);
   });
 
   it('should be created', () => {
